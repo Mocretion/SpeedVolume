@@ -18,6 +18,7 @@ import android.location.LocationManager;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +29,10 @@ import java.util.concurrent.TimeUnit;
 public class MainActivity extends AppCompatActivity implements LocationListener {
 
     private TextView tv_speed;
+    private EditText maxSpeed;
+    private EditText minSpeed;
+    private EditText maxVolume;
+    private EditText minVolume;
     private LocationManager locationManager;
     private AudioManager audioManager;
 
@@ -41,6 +46,10 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         setContentView(R.layout.activity_main);
 
         tv_speed = findViewById(R.id.tv_speed);
+        maxSpeed = findViewById(R.id.maxSpeedInput);
+        minSpeed = findViewById(R.id.minSpeedInput);
+        maxVolume = findViewById(R.id.maxVolumeInput);
+        minVolume = findViewById(R.id.minVolumeInput);
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         audioManager = (AudioManager)this.getSystemService(Context.AUDIO_SERVICE);
 
@@ -49,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ) {
                 ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 101);
             }else{  // Permission granted
-                onUserGPSPermissionSet();
+                //onUserGPSPermissionSet();
             }
         } catch (Exception e){
             e.printStackTrace();
@@ -130,10 +139,46 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         String strCurrentSpeed = fmt.toString();
         strCurrentSpeed = strCurrentSpeed.replace(" ", "0");
 
+        if(maxVolume.getText().toString().isEmpty() ||
+                minVolume.getText().toString().isEmpty() ||
+                maxSpeed.getText().toString().isEmpty() ||
+                minSpeed.getText().toString().isEmpty())
+            return;
+
+        int intMaxVolume = Integer.parseInt(maxVolume.getText().toString());
+        int intMinVolume = Integer.parseInt(minVolume.getText().toString());
+        float fMaxSpeed = Integer.parseInt(maxSpeed.getText().toString());
+        float fMinSpeed = Integer.parseInt(minSpeed.getText().toString());
+
+        if(intMinVolume < 0)
+            intMaxVolume = 0;
+
+        if(intMaxVolume > 15)
+            intMaxVolume = 15;
+
+        if(fMinSpeed < 0)
+            fMinSpeed = 0;
+
+        if(fMaxSpeed > 110)
+            fMaxSpeed = 110;
+
+        if(fMaxSpeed < fMinSpeed)
+            fMaxSpeed = fMinSpeed;
+
+        if(intMaxVolume < intMinVolume)
+            intMaxVolume = intMinVolume;
+
         tv_speed.setText(strCurrentSpeed + " km/h");
         if(audioManager != null) {
-            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, Math.round(audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC) / 100f * currentSpeed), AudioManager.FLAG_SHOW_UI);
+            float percent = (intMaxVolume - intMinVolume) / (fMaxSpeed - fMinSpeed);
+            int volume = Math.round(percent * (currentSpeed - fMinSpeed) + intMinVolume);
 
+            if(volume < intMinVolume)
+                volume = intMinVolume;
+            if(volume > intMaxVolume)
+                volume = intMaxVolume;
+
+            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, volume, 0);
         }
     }
 
@@ -143,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         if (requestCode == 101) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 if(locationManager.isLocationEnabled()){
-                    onUserGPSPermissionSet();
+                    //onUserGPSPermissionSet();
                 }else{
                     Toast.makeText(this, "GPS is turned off!", Toast.LENGTH_SHORT).show();
                 }

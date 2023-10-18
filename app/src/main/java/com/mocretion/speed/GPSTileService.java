@@ -2,12 +2,11 @@ package com.mocretion.speed;
 
 import android.content.Context;
 import android.location.LocationManager;
+import android.service.quicksettings.Tile;
 import android.service.quicksettings.TileService;
 import android.util.Log;
 
 public class GPSTileService extends TileService {
-
-    boolean enabled = true;
 
     // Called when the user adds your tile.
     @Override
@@ -32,13 +31,18 @@ public class GPSTileService extends TileService {
     public void onClick() {
 
         super.onClick();
+
+        Tile tile = getQsTile();
+        tile.getState();
+        tile.setState(tile.getState() == Tile.STATE_ACTIVE ? Tile.STATE_INACTIVE : Tile.STATE_ACTIVE);
+
         LocationManager manager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        if(enabled)
+        if(tile.getState() != Tile.STATE_ACTIVE)
             manager.removeUpdates(MainActivity.mainActivity);
         else
             MainActivity.onUserGPSPermissionSet();
 
-        enabled = !enabled;
+        tile.updateTile();
     }
 
     // Called when the user removes your tile.

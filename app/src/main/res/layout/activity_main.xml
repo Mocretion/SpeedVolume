@@ -8,9 +8,101 @@
 
     <TextView
         android:id="@+id/tv_speed"
-        android:textSize="24sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="0 km/h" />
+        android:text="0 km/h"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/maxSpeed"
+        android:layout_width="wrap_content"
+        android:layout_height="39dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="19dp"
+        android:layout_marginBottom="559dp"
+        android:text="Höchstgeschwindigkeit"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/maxSpeedInput"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="19dp"
+        android:layout_marginBottom="563dp"
+        android:ems="10"
+        android:inputType="number"
+        android:text="100" />
+
+    <TextView
+        android:id="@+id/minSpeed"
+        android:layout_width="wrap_content"
+        android:layout_height="39dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="19dp"
+        android:layout_marginBottom="509dp"
+        android:text="Mindestgeschwindigkeit"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/minSpeedInput"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="19dp"
+        android:layout_marginBottom="513dp"
+        android:ems="10"
+        android:inputType="number"
+        android:text="10" />
+
+    <TextView
+        android:id="@+id/maxVolume"
+        android:layout_width="wrap_content"
+        android:layout_height="39dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="19dp"
+        android:layout_marginBottom="459dp"
+        android:text="Maximale Lautstärke"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/maxVolumeInput"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="19dp"
+        android:layout_marginBottom="463dp"
+        android:ems="10"
+        android:inputType="number"
+        android:text="13" />
+
+    <TextView
+        android:id="@+id/minVolume"
+        android:layout_width="wrap_content"
+        android:layout_height="39dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="19dp"
+        android:layout_marginBottom="409dp"
+        android:text="Minimale Lautstärke"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/minVolumeInput"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="19dp"
+        android:layout_marginBottom="413dp"
+        android:ems="10"
+        android:inputType="number"
+        android:text="6" />
 </RelativeLayout>
