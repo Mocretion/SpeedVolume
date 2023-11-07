@@ -8,7 +8,11 @@
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.PERSISTENT_ACTIVITY" />
 
     <uses-feature android:name="android.hardware.location.gps"/>
 
@@ -25,6 +29,7 @@
 
         <activity
             android:name=".MainActivity"
+            android:launchMode="singleTask"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,6 +39,7 @@
         </activity>
 
         <service android:name=".GPSService" android:label="GPS Service"
+            android:foregroundServiceType="location"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.mocretion.GPSService"/>

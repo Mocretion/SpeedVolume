@@ -1,5 +1,6 @@
 package com.mocretion.speed;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.location.LocationManager;
 import android.service.quicksettings.Tile;
@@ -36,9 +37,9 @@ public class GPSTileService extends TileService {
         tile.getState();
         tile.setState(tile.getState() == Tile.STATE_ACTIVE ? Tile.STATE_INACTIVE : Tile.STATE_ACTIVE);
 
-        LocationManager manager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+
         if(tile.getState() != Tile.STATE_ACTIVE)
-            manager.removeUpdates(MainActivity.mainActivity);
+            MainActivity.removeGPSUpdates();
         else
             MainActivity.onUserGPSPermissionSet();
 
