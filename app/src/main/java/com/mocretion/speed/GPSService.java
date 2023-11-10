@@ -19,6 +19,7 @@ import android.location.LocationManager;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.IBinder;
+import android.os.PowerManager;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -36,6 +37,9 @@ import java.util.Locale;
 public class GPSService extends Service {
 
     public static boolean running = false;
+
+    PowerManager.WakeLock wakeLock;
+    PowerManager pm;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -68,5 +72,32 @@ public class GPSService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        acquireWakeLock();
+    }
+
+    @Override
+    public void onDestroy(){
+        releaseWakelock();
+        super.onDestroy();
+    }
+
+    public void acquireWakeLock() {
+        if(PowerManagement.wakelock!=null){
+            PowerManagement.wakelock.release();
+            PowerManagement.wakelock=null;
+        }
+        pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
+                "speed:speedvolumetracker");
+        wakeLock.acquire();
+        PowerManagement.wakelock=this.wakeLock;
+    }
+    public void releaseWakelock() {
+        if(PowerManagement.wakelock!=null){
+            PowerManagement.wakelock.release();
+            PowerManagement.wakelock=null;
+        }
+
+        wakeLock.release();
     }
 }

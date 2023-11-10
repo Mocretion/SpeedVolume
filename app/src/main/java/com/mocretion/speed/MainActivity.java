@@ -19,7 +19,10 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.media.AudioManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.PowerManager;
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -92,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         ActivityManager.RunningServiceInfo service = foregroundServiceRunning();
 
         if(service == null && GPSService.running == false) {
-            Intent serviceIntent = new Intent(this, GPSService.class);
+            Intent serviceIntent = new Intent( this, GPSService.class);
             serviceIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startForegroundService(serviceIntent);
             GPSService.running = true;
@@ -252,11 +255,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     private void updateSpeed(Location location){
         float currentSpeed = 0;
         if(location != null){
-            currentSpeed = location.getSpeed();
+            currentSpeed = location.getSpeed() * 3.6f;
         }
 
         Formatter fmt = new Formatter(new StringBuilder());
-        fmt.format(Locale.US, "%5.1f", currentSpeed);
+        fmt.format(Locale.US, "%.0f", currentSpeed);
         String strCurrentSpeed = fmt.toString();
         strCurrentSpeed = strCurrentSpeed.replace(" ", "0");
 
