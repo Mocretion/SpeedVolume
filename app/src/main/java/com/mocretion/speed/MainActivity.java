@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -292,7 +291,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
         tv_speed.setText(strCurrentSpeed + " km/h");
         if(audioManager != null) {
-            float percent = (iMaxVolume - iMinVolume) / (iMaxSpeed - iMinSpeed);
+            float percent = (float)((iMaxVolume - iMinVolume)) / (float)((iMaxSpeed - iMinSpeed));
             int volume = Math.round(percent * (currentSpeed - iMinSpeed) + iMinVolume);
 
             if(volume < iMinVolume)
